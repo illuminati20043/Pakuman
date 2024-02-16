@@ -9,7 +9,7 @@
 */
 void initSDL();
 
-/**
+/**gcc main.c -lSDL2 -lSDL2main -o main
 * Créé une fenêtre SDL
 * @param winName Nom de la fenêtre
 * @param winWidth Largeur de la fenêtre

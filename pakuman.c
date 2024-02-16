@@ -41,7 +41,7 @@ void Init_Pakuman(struct Pakuman *pakuman)
 void Afficher_Pakuman(struct Pakuman pakuman,SDL_Window* win,SDL_Renderer * ren)
 {
 	//création d'une image à utiliser
-	SDL_Texture* monImage = loadTexture("pakuman_0.bmp",ren);
+	SDL_Texture* monImage = loadTexture("sprites/pakuman_0.bmp",ren);
 	SDL_Rect dst = {pakuman.posX,pakuman.posY,36,36};
 	SDL_RenderCopy(ren, monImage, NULL, &dst);
     	SDL_DestroyTexture(monImage); // Free the texture
@@ -56,14 +56,7 @@ void Afficher_Pakuman(struct Pakuman pakuman,SDL_Window* win,SDL_Renderer * ren)
 void Deplacer_Pakuman(struct Pakuman *pakuman,SDL_Window* win,SDL_Renderer * ren,int map[MAP_HEIGHT][MAP_WIDTH],int *score)
 	
 {	
-
-
-
-
-
-//on déplace selon la direction du pakuman
-
-	 // Save the current position of the Pakuman
+	// Save the current position of the Pakuman
     int currentPosX = pakuman->posX;
     int currentPosY = pakuman->posY;
 
@@ -123,12 +116,15 @@ void Deplacer_Pakuman(struct Pakuman *pakuman,SDL_Window* win,SDL_Renderer * ren
 	
 	
 	
-	
-	char alj[] = "pakuman_0.bmp";
-	if(pakuman->direction=='d'){alj[8]='3';}
-	else if(pakuman->direction=='u'){alj[8]='1';}
-	else if(pakuman->direction=='l'){alj[8]='2';}
-	else if(pakuman->direction=='r'){alj[8]='0';}
+	int directionId;
+	if(pakuman->direction=='d'){directionId=3;}
+	else if(pakuman->direction=='u'){directionId=1;}
+	else if(pakuman->direction=='l'){directionId=2;}
+	else if(pakuman->direction=='r'){directionId=0;}
+
+	char alj[30];
+    snprintf(alj, sizeof(alj),  "sprites/pakuman_%d.bmp", directionId);
+
 	
 	
 	SDL_Texture* monImage = loadTexture(alj,ren);

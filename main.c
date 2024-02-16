@@ -1,3 +1,5 @@
+#define SDL_MAIN_HANDLED 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "pakuman.h"
@@ -44,7 +46,7 @@ int check_collision(struct Pakuman pakuman, struct Fantome fantome) {
 
 
 
-	int main(){
+	int main(int argc, char **argv){
             int nbrmanges=0;
             int ghostEaten = 0;
 
@@ -91,14 +93,14 @@ int check_collision(struct Pakuman pakuman, struct Fantome fantome) {
 		
         Afficher_Pakuman(pakuman,win,ren);	
         //textures à utiliser
-        SDL_Texture* game_over_texture = loadTexture("game_over.bmp",ren);
-        SDL_Texture* you_win = loadTexture("VSwin.bmp",ren);
-		SDL_Texture *wall_texture = loadTexture("wall.bmp", ren);
-		SDL_Texture *gum_texture = loadTexture("gum.bmp", ren);
-		SDL_Texture *bigGum_texture = loadTexture("bigGum.bmp", ren);
-        SDL_Texture *cherry_texture = loadTexture("cherry.bmp", ren);
-        SDL_Texture *TP1_texture = loadTexture("TP1.bmp", ren);
-        SDL_Texture *TP2_texture = loadTexture("TP2.bmp", ren);
+        SDL_Texture* game_over_texture = loadTexture("sprites/game_over.bmp",ren);
+        SDL_Texture* you_win = loadTexture("sprites/VSwin.bmp",ren);
+		SDL_Texture *wall_texture = loadTexture("sprites/wall.bmp", ren);
+		SDL_Texture *gum_texture = loadTexture("sprites/gum.bmp", ren);
+		SDL_Texture *bigGum_texture = loadTexture("sprites/bigGum.bmp", ren);
+        SDL_Texture *cherry_texture = loadTexture("sprites/cherry.bmp", ren);
+        SDL_Texture *TP1_texture = loadTexture("sprites/TP1.bmp", ren);
+        SDL_Texture *TP2_texture = loadTexture("sprites/TP2.bmp", ren);
 
 
 

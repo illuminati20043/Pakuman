@@ -1,6 +1,5 @@
 #include "gestionGraphique.h"
 
-
 void initSDL(){
 if(SDL_Init(SDL_INIT_VIDEO) < 0)  // initialisation de la SDL
     {
