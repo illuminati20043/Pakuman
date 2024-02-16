@@ -8,7 +8,6 @@
 #define PHEIGHT 50
 #define TILE_SIZE 40
 
-
 int allEqual(int arr[MAP_HEIGHT][MAP_WIDTH], int value);
 
 void Init_Map(int map[MAP_HEIGHT][MAP_WIDTH]);
