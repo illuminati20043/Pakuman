@@ -1,19 +1,27 @@
 #include "pakuman.h"
 #include "plateau.h"
 
+#include "constants.h"
+
 // initialisation du pacman
 int* gumCount = 0;
 
 
 // Function to check collision with walls
-int check_collision_wall(struct Pakuman pakuman, int map[MAP_HEIGHT][MAP_WIDTH])
+int check_collision_wall(int left, int right, int top, int bottom, int map[MAP_HEIGHT][MAP_WIDTH])
 {
-    // Calculate the tile indices of the Pakuman's position
-    int tileX = pakuman.posX / TILE_SIZE;
-    int tileY = pakuman.posY / TILE_SIZE;
+    // Get tile indices of all 4 edges for Pak
+    int lIndex = left / TILE_SIZE;
+    int rIndex = right / TILE_SIZE;
 
-    // Check if the tile at Pakuman's position is a wall
-    if (map[tileY][tileX] == 1)
+    int tIndex = top/TILE_SIZE;
+    int bIndex = bottom/TILE_SIZE;
+
+    // Check if the tile at input position is a wall
+    if (map[tIndex][lIndex] == 1 || 
+        map[tIndex][rIndex] == 1 ||
+        map[bIndex][lIndex] == 1 || 
+        map[bIndex][rIndex] == 1)
     {
         // Collision detected with wall
         return 1;
@@ -50,55 +58,53 @@ void Afficher_Pakuman(struct Pakuman pakuman, SDL_Window *win, SDL_Renderer *ren
 void Deplacer_Pakuman(struct Pakuman *pakuman, SDL_Window *win, SDL_Renderer *ren, int map[MAP_HEIGHT][MAP_WIDTH], int *score)
 
 {
-    // Save the current position of the Pakuman
-    int currentPosX = pakuman->posX;
-    int currentPosY = pakuman->posY;
-    int tileX = pakuman->posX / TILE_SIZE;
-    int tileY = pakuman->posY / TILE_SIZE;
+    // Get the edges of pakuman's hitbox 
+    int left = pakuman->posX + HITBOX_BUFFER;
+    int right = pakuman->posX + PAKUMAN_WIDTH - HITBOX_BUFFER;
+    int top = pakuman->posY + HITBOX_BUFFER;
+    int bottom = pakuman->posY + PAKUMAN_HEIGHT - HITBOX_BUFFER;
 
+    int tileX = (left + right) / (2 * TILE_SIZE); 
+    int tileY = (top + bottom) / (2 * TILE_SIZE);
 
-    //handle pacman movement
+    //printf("%d  %d  \n", top, bottom);
+    
+
+    //handle pakuman movement
     switch (pakuman->direction)
     {
     case 'd':
-        if (pakuman->posY + 5 + 36 < 840)
+        if (bottom + 5 < 840)
         {
-
-            int nextTileY = (pakuman->posY + 5 + 30) / TILE_SIZE;
-            if (map[nextTileY][tileX] != 1)
+            if (check_collision_wall(left, right, top+5, bottom + 5, map) == 0)
             {
                 pakuman->posY += 4;
             }
         }
         break;
     case 'u':
-        if (pakuman->posY - 5 >= 0)
+        if (top - 5 >= 0)
         {
-
-            int nextTileY = (pakuman->posY - 5) / TILE_SIZE;
-            if (map[nextTileY][tileX] != 1)
+            if (check_collision_wall(left, right, top-5, bottom - 5, map) == 0)
             {
                 pakuman->posY -= 4;
             }
+            
         }
         break;
     case 'l':
-        if (pakuman->posX - 5 >= 0)
+        if (left- 5 >= 0)
         {
-            int nextTileX = (pakuman->posX - 5) / TILE_SIZE;
-
-            if (map[tileY][nextTileX] != 1)
+            if (check_collision_wall(left-5, right-5, top, bottom , map) == 0)
             {
                 pakuman->posX -= 4;
             }
         }
         break;
     case 'r':
-        if (pakuman->posX + 5 + 36 < 760)
+        if (right + 5 < 760)
         {
-            int nextTileX = (pakuman->posX + 5 + 30) / TILE_SIZE;
-
-            if (map[tileY][nextTileX] != 1)
+            if (check_collision_wall(left+5, right+5, top, bottom , map) == 0)
             {
                 pakuman->posX += 4;
             }
