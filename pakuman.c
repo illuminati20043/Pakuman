@@ -2,7 +2,9 @@
 #include "plateau.h"
 
 // initialisation du pacman
-*gumCount = 0;
+int* gumCount = 0;
+
+
 // Function to check collision with walls
 int check_collision_wall(struct Pakuman pakuman, int map[MAP_HEIGHT][MAP_WIDTH])
 {
@@ -51,11 +53,11 @@ void Deplacer_Pakuman(struct Pakuman *pakuman, SDL_Window *win, SDL_Renderer *re
     // Save the current position of the Pakuman
     int currentPosX = pakuman->posX;
     int currentPosY = pakuman->posY;
-
-    // Move the Pakuman according to the direction
     int tileX = pakuman->posX / TILE_SIZE;
     int tileY = pakuman->posY / TILE_SIZE;
 
+
+    //handle pacman movement
     switch (pakuman->direction)
     {
     case 'd':
@@ -123,6 +125,7 @@ void Deplacer_Pakuman(struct Pakuman *pakuman, SDL_Window *win, SDL_Renderer *re
         map[tileY][tileX] = 0;
     }
 
+    //display corresponding sprite
     int directionId;
     if (pakuman->direction == 'd')
     {

@@ -2,10 +2,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <SDL2/SDL_ttf.h>
 #include "pakuman.h"
 #include "gestionGraphique.h"
 #include "fantome.h"
 #include "plateau.h"
+
 
 #define INITIAL_PAKUMAN_X 40
 #define INITIAL_PAKUMAN_Y 40
@@ -15,6 +17,8 @@
 #define GHOST_HEIGHT 30
 #define WALL_WIDTH 30
 #define WALL_HEIGHT 30
+
+#define SCORE_FONT_SIZE 20
 
 int score = 0;
 
@@ -57,6 +61,8 @@ int main(int argc, char **argv)
 
     // création de la window
     initSDL();
+    TTF_Init();
+
     SDL_Window *win = createWindow("Aljman", 760, 840);
     SDL_Renderer *ren = createRenderer(win);
     SDL_Event event;
@@ -80,7 +86,9 @@ int main(int argc, char **argv)
     Init_Pakuman(&pakuman);
 
     Afficher_Pakuman(pakuman, win, ren);
-    // textures à utiliser
+
+
+    // textures/resources à utiliser
     SDL_Texture *game_over_texture = loadTexture("sprites/game_over.bmp", ren);
     SDL_Texture *you_win = loadTexture("sprites/VSwin.bmp", ren);
     SDL_Texture *wall_texture = loadTexture("sprites/wall.bmp", ren);
@@ -90,9 +98,13 @@ int main(int argc, char **argv)
     SDL_Texture *TP1_texture = loadTexture("sprites/TP1.bmp", ren);
     SDL_Texture *TP2_texture = loadTexture("sprites/TP2.bmp", ren);
 
+    TTF_Font* scoreFont = TTF_OpenFont("./fonts/Minecraft.ttf", SCORE_FONT_SIZE);
+    SDL_Color scoreColor = {255, 255, 255}; 
+
+
+    //main game loop
     int is_game_over = 0;
     int is_quit = 0;
-
     while ((!is_quit) && (!is_game_over))
     {
         char d;
@@ -107,6 +119,8 @@ int main(int argc, char **argv)
         }
 
         SDL_RenderClear(ren);
+
+        //display the map
         for (int i = 0; i < MAP_HEIGHT; i++)
         {
             for (int j = 0; j < MAP_WIDTH; j++)
@@ -222,8 +236,33 @@ int main(int argc, char **argv)
             }
         }
 
+
+
+
+
+        //display score in middle left
+        char scoreText[15];
+        snprintf(scoreText, sizeof(scoreText), "%d", score);
+
+        SDL_Surface* scoreTextSurface = TTF_RenderText_Solid(scoreFont, "Score Actuel : ", scoreColor);
+        SDL_Texture* scoreTextTexture = SDL_CreateTextureFromSurface(ren, scoreTextSurface);
+
+        SDL_Surface* scoreNumSurface = TTF_RenderText_Solid(scoreFont, scoreText, scoreColor);
+        SDL_Texture* scoreNumTexture = SDL_CreateTextureFromSurface(ren, scoreNumSurface);
+        
+        renderTexture(scoreTextTexture, ren, 5, 380, 150, 50);
+        renderTexture(scoreNumTexture, ren, 40, 430, 50, 50);
+
+        //SDL_RenderCopy(ren, Message, NULL, &scoreRect);
+
+
+ 
+        // SDL_FreeSurface(surfaceMessage);
+        // SDL_DestroyTexture(Message);
+
         updateDisplay(ren);
 
+        //handle game ending logic
         if (pakuman.nbrvies == 0)
         {
 
@@ -250,6 +289,8 @@ int main(int argc, char **argv)
     }
 
     printf("Score : %d\n", score);
+
+
 
     return 0;
 }

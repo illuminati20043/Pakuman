@@ -1,5 +1,2 @@
 .vscode/
-include/
-lib/
-SDL2.dll
 game.exe
