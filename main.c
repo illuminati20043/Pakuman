@@ -9,7 +9,6 @@
 #include "plateau.h"
 #include "constants.h"
 
-
 int score = 0;
 
 // Function to check collision between Pakuman and ghosts
@@ -77,7 +76,6 @@ int main(int argc, char **argv)
 
     Afficher_Pakuman(pakuman, win, ren);
 
-
     // textures/resources à utiliser
     SDL_Texture *game_over_texture = loadTexture("sprites/game_over.bmp", ren);
     SDL_Texture *you_win = loadTexture("sprites/VSwin.bmp", ren);
@@ -88,16 +86,18 @@ int main(int argc, char **argv)
     SDL_Texture *TP1_texture = loadTexture("sprites/TP1.bmp", ren);
     SDL_Texture *TP2_texture = loadTexture("sprites/TP2.bmp", ren);
 
-    TTF_Font* scoreFont = TTF_OpenFont("./fonts/Minecraft.ttf", SCORE_FONT_SIZE);
-    SDL_Color scoreColor = {255, 255, 255}; 
+    TTF_Font *scoreFont = TTF_OpenFont("./fonts/Minecraft.ttf", SCORE_FONT_SIZE);
+    SDL_Color scoreColor = {255, 255, 255};
 
-
-    //main game loop
+    // main game loop
     int is_game_over = 0;
     int is_quit = 0;
+
     while ((!is_quit) && (!is_game_over))
     {
         char d;
+
+        int f_start = SDL_GetTicks();
 
         while (SDL_PollEvent(&event))
         {
@@ -110,7 +110,7 @@ int main(int argc, char **argv)
 
         SDL_RenderClear(ren);
 
-        //display the map
+        // display the map
         for (int i = 0; i < MAP_HEIGHT; i++)
         {
             for (int j = 0; j < MAP_WIDTH; j++)
@@ -177,9 +177,9 @@ int main(int argc, char **argv)
         // deplacer le pakuman
         Deplacer_Pakuman(&pakuman, win, ren, map, &score);
 
-        // if (check_collision(pakuman, fantome)  || 
-        //     check_collision(pakuman, fantome1) || 
-        //     check_collision(pakuman, fantome2) || 
+        // if (check_collision(pakuman, fantome)  ||
+        //     check_collision(pakuman, fantome1) ||
+        //     check_collision(pakuman, fantome2) ||
         //     check_collision(pakuman, fantome3))
         // {
 
@@ -214,11 +214,9 @@ int main(int argc, char **argv)
         //     }
         // }
 
-
-        //update mange counter
+        // update mange counter
         nbrmanges += ghostEaten;
         ghostEaten = 0;
-
 
         if (360 <= pakuman.posX && 400 >= pakuman.posX)
         {
@@ -229,33 +227,27 @@ int main(int argc, char **argv)
             }
         }
 
-
-
-
-
-        //display score in middle left
+        // display score in middle left
         char scoreText[15];
         snprintf(scoreText, sizeof(scoreText), "%d", score);
 
-        SDL_Surface* scoreTextSurface = TTF_RenderText_Solid(scoreFont, "Score Actuel : ", scoreColor);
-        SDL_Texture* scoreTextTexture = SDL_CreateTextureFromSurface(ren, scoreTextSurface);
+        SDL_Surface *scoreTextSurface = TTF_RenderText_Solid(scoreFont, "Score Actuel : ", scoreColor);
+        SDL_Texture *scoreTextTexture = SDL_CreateTextureFromSurface(ren, scoreTextSurface);
 
-        SDL_Surface* scoreNumSurface = TTF_RenderText_Solid(scoreFont, scoreText, scoreColor);
-        SDL_Texture* scoreNumTexture = SDL_CreateTextureFromSurface(ren, scoreNumSurface);
-        
+        SDL_Surface *scoreNumSurface = TTF_RenderText_Solid(scoreFont, scoreText, scoreColor);
+        SDL_Texture *scoreNumTexture = SDL_CreateTextureFromSurface(ren, scoreNumSurface);
+
         renderTexture(scoreTextTexture, ren, 5, 380, 150, 50);
         renderTexture(scoreNumTexture, ren, 40, 430, 50, 50);
 
-        //SDL_RenderCopy(ren, Message, NULL, &scoreRect);
+        // SDL_RenderCopy(ren, Message, NULL, &scoreRect);
 
-
- 
         // SDL_FreeSurface(surfaceMessage);
         // SDL_DestroyTexture(Message);
 
         updateDisplay(ren);
 
-        //handle game ending logic
+        // handle game ending logic
         if (pakuman.nbrvies == 0)
         {
 
@@ -268,7 +260,7 @@ int main(int argc, char **argv)
 
             break;
         }
-        if (score >= 4400)
+        if (score >= 1410)
         {
             is_game_over = 1;
             SDL_RenderClear(ren);
@@ -279,11 +271,19 @@ int main(int argc, char **argv)
 
             break;
         }
+
+        //wait enough time to match desired frame rate
+        int f_end = SDL_GetTicks();
+        if (FRAME_DELAY - (f_end - f_start) > 0){
+            SDL_Delay(FRAME_DELAY - (f_end - f_start));
+        }
+
+        int f_real_end = SDL_GetTicks();
+        printf("Current FPS : %d \n", 1000/(f_real_end - f_start));
+
     }
 
     printf("Score : %d\n", score);
-
-
 
     return 0;
 }
