@@ -51,8 +51,10 @@ int main(int argc, char **argv)
     // création de la window
     initSDL();
     TTF_Init();
+    SDL_Init(SDL_INIT_AUDIO);
 
-    SDL_Window *win = createWindow("Aljman", 760, 840);
+
+    SDL_Window *win = createWindow("Aljman", SCREEN_WIDTH, SCREEN_HEIGHT);
     SDL_Renderer *ren = createRenderer(win);
     SDL_Event event;
 
@@ -64,11 +66,19 @@ int main(int argc, char **argv)
 
     Init_Fantome(&fantome, 250, 250, '1');
     Init_Fantome(&fantome1, 710, 50, '2');
+<<<<<<< HEAD
      Init_Fantome(&fantome2, 50, 770, '3');
      Init_Fantome(&fantome3, 710, 770, '4');
 
     // affichage du fantome
      Afficher_Fantome(fantome, win, ren);
+=======
+    Init_Fantome(&fantome2, 50, 770, '3');
+    Init_Fantome(&fantome3, 710, 770, '4');
+
+    // affichage du fantome
+    Afficher_Fantome(fantome, win, ren);
+>>>>>>> c5a4fef4ee836dcea76acd44ada4941cdd552984
 
     // création et affichage du personnage
     struct Pakuman pakuman;
@@ -156,7 +166,11 @@ int main(int argc, char **argv)
             }
         }
 
+<<<<<<< HEAD
        // Render et deplacer le fantome
+=======
+        // Render et deplacer le fantome
+>>>>>>> c5a4fef4ee836dcea76acd44ada4941cdd552984
         if (fantome.mange == 0)
         {
             Deplacer_Fantome(&fantome, win, ren, map);

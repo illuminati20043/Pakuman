@@ -6,6 +6,8 @@
 
 //general game info 
 static const int FRAME_DELAY = 17;
+static const int SCREEN_WIDTH = 760;
+static const int SCREEN_HEIGHT = 840;  
 
 //pakuman info
 static const int INITIAL_PAKUMAN_X  = 40;
