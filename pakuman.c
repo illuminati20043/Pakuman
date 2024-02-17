@@ -128,7 +128,15 @@ void Deplacer_Pakuman(struct Pakuman *pakuman, SDL_Window *win, SDL_Renderer *re
         {
             pakuman->peutmanger = 1;
         }
+        
+
         map[tileY][tileX] = 0;
+    }
+    else if(map[tileY][tileX] == 5){
+
+        pakuman->posX = 40;
+        pakuman->posY = 40;
+
     }
 
     //display corresponding sprite
