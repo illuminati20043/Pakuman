@@ -1,4 +1,5 @@
 #include "fantome.h"
+#include "plateau.h"
 
 void Init_Fantome(struct Fantome *fantome, float X, float Y, char nombre)
 {
@@ -8,6 +9,22 @@ void Init_Fantome(struct Fantome *fantome, float X, float Y, char nombre)
     fantome->direction = 'l';
     fantome->nbr = nombre;
     fantome->mange = 0; // mangé et non pas manged
+}
+
+int is_intersection(struct Fantome *fantome, int map[MAP_HEIGHT][MAP_WIDTH]) {
+    int tileX = fantome->posX / TILE_SIZE;
+    int tileY = fantome->posY / TILE_SIZE;
+
+    int leftIsEmpty = (tileX > 0 && map[tileY][tileX - 1] == 0);
+    int rightIsEmpty = (tileX < MAP_WIDTH - 1 && map[tileY][tileX + 1] == 0);
+    int upIsEmpty = (tileY > 0 && map[tileY - 1][tileX] == 0);
+    int downIsEmpty = (tileY < MAP_HEIGHT - 1 && map[tileY + 1][tileX] == 0);
+
+    if (leftIsEmpty || rightIsEmpty || upIsEmpty || downIsEmpty) {
+        return 1; // Intersection detected
+    } else {
+        return 0; // No intersection
+    }
 }
 
 void Afficher_Fantome(struct Fantome fantome, SDL_Window *win, SDL_Renderer *ren)
@@ -35,7 +52,24 @@ void Deplacer_Fantome(struct Fantome *fantome, SDL_Window *win, SDL_Renderer *re
     // Move the Fantome according to the direction
     int tileX = fantome->posX / TILE_SIZE;
     int tileY = fantome->posY / TILE_SIZE;
+    if(is_intersection(fantome,map)){
 
+                switch (rand() % 4)
+                { // Randomly choose a number between 0 and 3
+                case 0:
+                    fantome->direction = 'u'; // Up
+                    break;
+                case 1:
+                    fantome->direction = 'd'; // Down
+                    break;
+                case 2:
+                    fantome->direction = 'l'; // Left
+                    break;
+                case 3:
+                    fantome->direction = 'r'; // Right
+                    break;
+                }
+    }
     switch (fantome->direction)
     {
     case 'd':
@@ -102,6 +136,8 @@ void Deplacer_Fantome(struct Fantome *fantome, SDL_Window *win, SDL_Renderer *re
         if (fantome->posX - 5 >= 0)
         {
             int nextTileX = (fantome->posX - 5) / TILE_SIZE;
+            
+            
             if (map[tileY][nextTileX] != 1)
             {
                 fantome->posX -= 5;

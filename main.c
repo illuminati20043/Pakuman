@@ -66,19 +66,11 @@ int main(int argc, char **argv)
 
     Init_Fantome(&fantome, 250, 250, '1');
     Init_Fantome(&fantome1, 710, 50, '2');
-<<<<<<< HEAD
-     Init_Fantome(&fantome2, 50, 770, '3');
-     Init_Fantome(&fantome3, 710, 770, '4');
-
-    // affichage du fantome
-     Afficher_Fantome(fantome, win, ren);
-=======
     Init_Fantome(&fantome2, 50, 770, '3');
     Init_Fantome(&fantome3, 710, 770, '4');
 
     // affichage du fantome
-    Afficher_Fantome(fantome, win, ren);
->>>>>>> c5a4fef4ee836dcea76acd44ada4941cdd552984
+     Afficher_Fantome(fantome, win, ren);
 
     // création et affichage du personnage
     struct Pakuman pakuman;
@@ -166,11 +158,7 @@ int main(int argc, char **argv)
             }
         }
 
-<<<<<<< HEAD
        // Render et deplacer le fantome
-=======
-        // Render et deplacer le fantome
->>>>>>> c5a4fef4ee836dcea76acd44ada4941cdd552984
         if (fantome.mange == 0)
         {
             Deplacer_Fantome(&fantome, win, ren, map);
@@ -228,13 +216,11 @@ int main(int argc, char **argv)
             }
         }
 
-        // update mange counter
         nbrmanges += ghostEaten;
         ghostEaten = 0;
 
-        
+        // tous les fonts score
 
-        // display score in middle left
         char scoreText[15];
         snprintf(scoreText, sizeof(scoreText), "%d", score);
 
@@ -247,14 +233,10 @@ int main(int argc, char **argv)
         renderTexture(scoreTextTexture, ren, 5, 380, 150, 50);
         renderTexture(scoreNumTexture, ren, 40, 430, 50, 50);
 
-        // SDL_RenderCopy(ren, Message, NULL, &scoreRect);
 
-        // SDL_FreeSurface(surfaceMessage);
-        // SDL_DestroyTexture(Message);
 
         updateDisplay(ren);
-
-        // handle game ending logic
+    //fin du jeu
         if (pakuman.nbrvies == 0)
         {
 
@@ -279,7 +261,7 @@ int main(int argc, char **argv)
             break;
         }
 
-        //wait enough time to match desired frame rate
+
         int f_end = SDL_GetTicks();
         if (FRAME_DELAY - (f_end - f_start) > 0){
             SDL_Delay(FRAME_DELAY - (f_end - f_start));

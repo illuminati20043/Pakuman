@@ -125,24 +125,27 @@ void Deplacer_Pakuman(struct Pakuman *pakuman, SDL_Window *win, SDL_Renderer *re
     }
 
     if (map[tileY][tileX] == 2 || map[tileY][tileX] == 3 || map[tileY][tileX] == 4)
-    {
-        if (map[tileY][tileX] == 2) //small gum
-        {
-            *score += 10;
-            *gumCount--;
+{
+   if (map[tileY][tileX] == 2) //small gum
+{
+    SDL_AudioStatus audioStatus = SDL_GetAudioDeviceStatus(audioID);
+    *score += 10;
+    *gumCount--;
+    if (!(audioStatus == SDL_AUDIO_PLAYING)) {
+        SDL_PauseAudioDevice(audioID, 0);
+    }
 
-            SDL_QueueAudio(audioID, eatWavBuffer, eatWavLength);
-            SDL_PauseAudioDevice(audioID, 0);
-        }
-        else if (map[tileY][tileX] == 2) //big gum
-        {
-            *score += 100;
-            *gumCount--;
-        }
-        else if (map[tileY][tileX] == 4) //powerup
-        {
-            pakuman->peutmanger = 1;
-        }
+    SDL_QueueAudio(audioID, eatWavBuffer, eatWavLength);
+}
+    else if (map[tileY][tileX] == 3) //big gum
+    {
+        *score += 100;
+        *gumCount--;
+    }
+    else if (map[tileY][tileX] == 4) //powerup
+    {
+        pakuman->peutmanger = 1;
+    }
         
 
         map[tileY][tileX] = 0;
