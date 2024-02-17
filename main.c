@@ -51,24 +51,26 @@ int main(int argc, char **argv)
     // création de la window
     initSDL();
     TTF_Init();
+    SDL_Init(SDL_INIT_AUDIO);
 
-    SDL_Window *win = createWindow("Aljman", 760, 840);
+
+    SDL_Window *win = createWindow("Aljman", SCREEN_WIDTH, SCREEN_HEIGHT);
     SDL_Renderer *ren = createRenderer(win);
     SDL_Event event;
 
     // création du fantome
-    // struct Fantome fantome;
-    // struct Fantome fantome1;
-    // struct Fantome fantome2;
-    // struct Fantome fantome3;
+    struct Fantome fantome;
+    struct Fantome fantome1;
+    struct Fantome fantome2;
+    struct Fantome fantome3;
 
-    // Init_Fantome(&fantome, 250, 250, '1');
-    // Init_Fantome(&fantome1, 710, 50, '2');
-    // Init_Fantome(&fantome2, 50, 770, '3');
-    // Init_Fantome(&fantome3, 710, 770, '4');
+    Init_Fantome(&fantome, 250, 250, '1');
+    Init_Fantome(&fantome1, 710, 50, '2');
+    Init_Fantome(&fantome2, 50, 770, '3');
+    Init_Fantome(&fantome3, 710, 770, '4');
 
     // affichage du fantome
-    // Afficher_Fantome(fantome, win, ren);
+    Afficher_Fantome(fantome, win, ren);
 
     // création et affichage du personnage
     struct Pakuman pakuman;
@@ -157,62 +159,62 @@ int main(int argc, char **argv)
         }
 
         // Render et deplacer le fantome
-        // if (fantome.mange == 0)
-        // {
-        //     Deplacer_Fantome(&fantome, win, ren, map);
-        // }
-        // if (fantome1.mange == 0)
-        // {
-        //     Deplacer_Fantome(&fantome1, win, ren, map);
-        // }
-        // if (fantome2.mange == 0)
-        // {
-        //     Deplacer_Fantome(&fantome2, win, ren, map);
-        // }
-        // if (fantome3.mange == 0)
-        // {
-        //     Deplacer_Fantome(&fantome3, win, ren, map);
-        // }
+        if (fantome.mange == 0)
+        {
+            Deplacer_Fantome(&fantome, win, ren, map);
+        }
+        if (fantome1.mange == 0)
+        {
+            Deplacer_Fantome(&fantome1, win, ren, map);
+        }
+        if (fantome2.mange == 0)
+        {
+            Deplacer_Fantome(&fantome2, win, ren, map);
+        }
+        if (fantome3.mange == 0)
+        {
+            Deplacer_Fantome(&fantome3, win, ren, map);
+        }
 
         // deplacer le pakuman
         Deplacer_Pakuman(&pakuman, win, ren, map, &score);
 
-        // if (check_collision(pakuman, fantome)  ||
-        //     check_collision(pakuman, fantome1) ||
-        //     check_collision(pakuman, fantome2) ||
-        //     check_collision(pakuman, fantome3))
-        // {
+        if (check_collision(pakuman, fantome)  ||
+            check_collision(pakuman, fantome1) ||
+            check_collision(pakuman, fantome2) ||
+            check_collision(pakuman, fantome3))
+        {
 
-        //     if (pakuman.peutmanger == 0)
-        //     {
-        //         pakuman.nbrvies--;
-        //         pakuman.posX = INITIAL_PAKUMAN_X;
-        //         pakuman.posY = INITIAL_PAKUMAN_Y;
-        //     }
-        //     else
-        //     {
-        //         if (check_collision(pakuman, fantome) && !fantome.mange)
-        //         {
-        //             fantome.mange = 1;
-        //             ghostEaten = 1;
-        //         }
-        //         if (check_collision(pakuman, fantome1) && !fantome1.mange)
-        //         {
-        //             fantome1.mange = 1;
-        //             ghostEaten = 1;
-        //         }
-        //         if (check_collision(pakuman, fantome2) && !fantome2.mange)
-        //         {
-        //             fantome2.mange = 1;
-        //             ghostEaten = 1;
-        //         }
-        //         if (check_collision(pakuman, fantome3) && !fantome3.mange)
-        //         {
-        //             fantome3.mange = 1;
-        //             ghostEaten = 1;
-        //         }
-        //     }
-        // }
+            if (pakuman.peutmanger == 0)
+            {
+                pakuman.nbrvies--;
+                pakuman.posX = INITIAL_PAKUMAN_X;
+                pakuman.posY = INITIAL_PAKUMAN_Y;
+            }
+            else
+            {
+                if (check_collision(pakuman, fantome) && !fantome.mange)
+                {
+                    fantome.mange = 1;
+                    ghostEaten = 1;
+                }
+                if (check_collision(pakuman, fantome1) && !fantome1.mange)
+                {
+                    fantome1.mange = 1;
+                    ghostEaten = 1;
+                }
+                if (check_collision(pakuman, fantome2) && !fantome2.mange)
+                {
+                    fantome2.mange = 1;
+                    ghostEaten = 1;
+                }
+                if (check_collision(pakuman, fantome3) && !fantome3.mange)
+                {
+                    fantome3.mange = 1;
+                    ghostEaten = 1;
+                }
+            }
+        }
 
         // update mange counter
         nbrmanges += ghostEaten;
